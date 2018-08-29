@@ -4,11 +4,13 @@ import { connect } from 'react-redux';
 
 class Song extends React.Component {
     render() {
-        return (
+        const { song } = this.props;
+        return song ? (
             <View>
-                <Text>{this.props.song.title}</Text>
+                <Text>{song.title}</Text>
+                <Text>{song.text}</Text>
             </View>
-        );
+        ): null;
     }
 };
 

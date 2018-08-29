@@ -2,7 +2,7 @@ import React from 'react';
 import { StyleSheet, Text, View, Platform } from 'react-native';
 import { Provider } from 'react-redux';
 import RootStack from './src/router';
-import { store } from './src/store/configureStore';
+import store from './src/store/configureStore';
 
 export default class App extends React.Component {
   render() {

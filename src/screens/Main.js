@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux';
 import { Ionicons } from '@expo/vector-icons';
 import settings from '../config/settings';
+import { fetchRandomSong } from '../actions/song';
 
 class Main extends React.Component {
 
@@ -23,6 +24,7 @@ class Main extends React.Component {
     }
 
     _navigateToRandomSong = () => {
+        this.props.fetchRandomSong();
         this.props.navigation.navigate('Song');
     }
 
@@ -130,7 +132,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        dispatch
+        dispatch,
+        fetchRandomSong: () => dispatch(fetchRandomSong()),
     }
 }
 

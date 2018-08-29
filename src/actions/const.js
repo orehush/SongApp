@@ -1,3 +1,5 @@
+export const DEFAULT = 'DEFAULT';
+
 // songs
 export const GET_LIST_SONGS_REQUEST = 'GET_LIST_SONGS_REQUEST';
 export const GET_LIST_SONGS_SUCCESS = 'GET_LIST_SONGS_SUCCESS';

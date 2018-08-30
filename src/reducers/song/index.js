@@ -24,11 +24,11 @@ export const song = createReducer(initialState, {
         }
     },
     [ActionTypes.GET_SONG_ERROR](state, action) {
-            return {
-                ...state,
-                loading: false,
-                song: null,
-                isError: true
-            }
+        return {
+            ...state,
+            loading: false,
+            song: null,
+            isError: true
+        }
     }
 });

@@ -4,4 +4,5 @@ import { song } from './song';
 
 export const rootReducer = combineReducers({
     song,
+    songs
 });

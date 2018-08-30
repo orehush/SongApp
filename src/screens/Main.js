@@ -3,14 +3,17 @@ import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux';
 import { Ionicons } from '@expo/vector-icons';
 import settings from '../config/settings';
-import { fetchRandomSong } from '../actions/song';
+import { fetchRandomSong, fetchCollectionsList, fetchLetters } from '../actions/songs';
 
 class Main extends React.Component {
 
     static navigationOptions = {
-        title: 'Songs App',
+        title: 'SongApp',
         headerStyle: {
             backgroundColor: settings.backgroundPrimaryColor,
+            height: 60,
+            marginTop: -10,
+            paddingBottom: 8,
         },
         headerTitleStyle: {
             color: settings.primaryColor,
@@ -19,28 +22,33 @@ class Main extends React.Component {
     };
 
     _selectByNumber = () => {
-        this.props.navigation.navigate('Song');
-
+        this.props.fetchCollectionsList();
+        this.props.navigation.navigate('SearchByNumber');
     }
 
     _navigateToRandomSong = () => {
         this.props.fetchRandomSong();
-        this.props.navigation.navigate('Song');
+        this.props.navigation.navigate('Song', { 
+            headerTitle: 'Випадкова пісня' 
+        });
     }
 
     _navigateToSearch = () => {
-
+        this.props.navigation.navigate('SongList', { 
+            headerTitle: 'Пошук', showSearch: true 
+        });
     }
 
     _navigateToAlphabetic = () => {
-
+        this.props.fetchLetters();
+        this.props.navigation.navigate('SearchByLetter');
     }
 
     _navigateToBookmarks = () => {
 
     }
 
-    _navigateToSongBooks = () => {
+    _navigateToHistory = () => {
 
     }
 
@@ -52,14 +60,14 @@ class Main extends React.Component {
                           onPress={() => this._selectByNumber()}>
                         <Ionicons name="ios-copy" style={styles.icon} 
                           size={80} color={settings.primaryColor} />
-                        <Text style={styles.iconText}>Find by number</Text>
+                        <Text style={styles.iconText}>По номеру</Text>
                     </TouchableOpacity>
 
                     <TouchableOpacity style={styles.col}
                           onPress={() => this._navigateToAlphabetic()}>
                         <Ionicons name="ios-information-circle" style={styles.icon} 
                           size={80} color={settings.primaryColor} />
-                        <Text style={styles.iconText}>Alphabetic index</Text>
+                        <Text style={styles.iconText}>Зміст</Text>
                     </TouchableOpacity>
                 </View>
 
@@ -68,32 +76,32 @@ class Main extends React.Component {
                           onPress={() => this._navigateToSearch()}>
                         <Ionicons name="ios-search" style={styles.icon} 
                           size={80} color={settings.primaryColor} />
-                        <Text style={styles.iconText}>Search</Text>
+                        <Text style={styles.iconText}>Пошук</Text>
                     </TouchableOpacity>
 
-                    <TouchableOpacity style={styles.col}
-                          onPress={() => this._navigateToBookmarks()}>
-                        <Ionicons name="ios-bookmark" style={styles.icon} 
-                          size={80} color={settings.primaryColor} />
-                        <Text style={styles.iconText}>Bookmarks</Text>
-                    </TouchableOpacity>
-                </View>
-
-                <View style={styles.row}>
                     <TouchableOpacity style={styles.col}
                           onPress={() => this._navigateToRandomSong()}>
                         <Ionicons name="ios-help-circle" style={styles.icon} 
                           size={80} color={settings.primaryColor} />
-                        <Text style={styles.iconText}>Random song</Text>
+                        <Text style={styles.iconText}>Випадкова пісня</Text>
+                    </TouchableOpacity>
+                </View>
+
+                {/* <View style={styles.row}>
+                    <TouchableOpacity style={styles.col}
+                          onPress={() => this._navigateToBookmarks()}>
+                        <Ionicons name="ios-bookmark" style={styles.icon} 
+                          size={80} color={settings.primaryColor} />
+                        <Text style={styles.iconText}>Закладки</Text>
                     </TouchableOpacity>
 
                     <TouchableOpacity style={styles.col}
-                          onPress={() => this._navigateToSongBooks()}>
+                          onPress={() => this._navigateToHistory()}>
                         <Ionicons name="ios-book" style={styles.icon} 
                           size={80} color={settings.primaryColor} />
-                        <Text style={styles.iconText}>Songbooks</Text>
+                        <Text style={styles.iconText}>Історія</Text>
                     </TouchableOpacity>
-                </View>
+                </View> */}
             </View>
         );
     }
@@ -134,6 +142,8 @@ const mapDispatchToProps = (dispatch) => {
     return {
         dispatch,
         fetchRandomSong: () => dispatch(fetchRandomSong()),
+        fetchCollectionsList: () => dispatch(fetchCollectionsList()),
+        fetchLetters: () => dispatch(fetchLetters()),
     }
 }
 

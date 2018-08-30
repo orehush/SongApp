@@ -70,7 +70,7 @@ class SongList extends React.Component {
             <View style={styles.inputContainer}>
                 <View style={styles.iconContainer}>
                     <Ionicons style={styles.inputIcon} name="ios-search" 
-                          size={20} color={settings.primaryColor} />
+                          size={20} color={settings.black} />
                 </View>
                 <TextInput
                     onChangeText={this._onChangeText}
@@ -99,7 +99,7 @@ const styles = StyleSheet.create({
 		flexDirection: 'row',
 		justifyContent: 'center',
 		alignItems: 'center',
-		backgroundColor: '#fff',
+		backgroundColor: settings.primaryColor,
 		borderRadius: 8,
 		borderWidth: 1,
 		borderColor: settings.black
@@ -117,9 +117,9 @@ const styles = StyleSheet.create({
 		padding: 10,
 		borderTopRightRadius: 8,
 		borderBottomRightRadius: 8,
-		backgroundColor: '#fff',
+		backgroundColor: settings.primaryColor,
 		color: settings.black
-	}
+    },
 });
 
 const mapStateToProps = (state) => {

@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, Picker, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
 import { connect } from 'react-redux';
-import { Ionicons } from '@expo/vector-icons';
+import Icon from 'react-native-vector-icons/Ionicons';
 import settings from '../../config/settings';
 import { fetchSongByNumber } from '../../actions/songs'; 
 
@@ -70,7 +70,7 @@ class SearchByNumber extends React.Component {
                 </View>
                 <View style={styles.inputContainer}>
                     <View style={styles.iconContainer}>
-                        <Ionicons style={styles.inputIcon} name="ios-search" 
+                        <Icon style={styles.inputIcon} name="ios-search" 
                             size={20} color={settings.black} />
                     </View>
                     <TextInput

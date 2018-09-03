@@ -1,8 +1,18 @@
 {
   "expo": {
-    "sdkVersion": "27.0.0",
+    "name": "SongApp",
+    "version": "1.0.0",
+    "slug": "song-app",
+    "sdkVersion": "29.0.0",
     "packagerOpts": {
-      "assetExts": ["db"]
+      "assetExts": [
+        "db"
+      ]
+    },
+    "android": {
+      "package": "com.cristian.songapp"
     }
-  }
+  },
+  "name": "SongApp",
+  "displayName": "SongApp"
 }

@@ -1,14 +1,15 @@
-import Expo from 'expo';
+// import SQLite from 'react-native-sqlite-storage';
+var SQLite = require('react-native-sqlite-storage');
+// let db;
 
-let db;
+// Expo.FileSystem.downloadAsync(
+//     Expo.Asset.fromModule(require('../assets/songs.db')).uri,
+//     `${Expo.FileSystem.documentDirectory}SQLite/songs.db`
+// ).then(
+//     () =>
+// );
 
-Expo.FileSystem.downloadAsync(
-    Expo.Asset.fromModule(require('../assets/songs.db')).uri,
-    `${Expo.FileSystem.documentDirectory}SQLite/songs.db`
-).then(
-    () => db = Expo.SQLite.openDatabase('songs.db')
-);
-
+let db = SQLite.openDatabase({ name : "songsdb", createFromLocation : '~/songsdb' });;
 
 export class SongDBHelper {
 

@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, ScrollView, FlatList, TextInput, StyleSheet } from 'react-native';
 import { connect } from 'react-redux';
-import { Ionicons } from '@expo/vector-icons';
+import Icon from 'react-native-vector-icons/Ionicons';
 import { SongListItem } from './components/listitem';
 import { fetchSong, fetchSongsByQuery, fetchSongsSuccess } from '../../actions/songs';
 import settings from '../../config/settings';
@@ -69,7 +69,7 @@ class SongList extends React.Component {
         return this.state.showSearch ? (
             <View style={styles.inputContainer}>
                 <View style={styles.iconContainer}>
-                    <Ionicons style={styles.inputIcon} name="ios-search" 
+                    <Icon style={styles.inputIcon} name="ios-search" 
                           size={20} color={settings.black} />
                 </View>
                 <TextInput

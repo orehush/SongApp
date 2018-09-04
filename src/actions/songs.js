@@ -49,6 +49,7 @@ export const fetchCollectionsListSuccess = (payload) => ({ type: GET_COLLECTIONS
 export const fetchCollectionsList = () => (dispatch) => {
     dispatch(fetchCollectionsListRequest());
     SongDBHelper.fetchCollectionsList().then(result => {
+        console.log('LIST', result);
         dispatch(fetchCollectionsListSuccess(result));
     }).catch(err => dispatch(fetchCollectionsListError()));
 };

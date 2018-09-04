@@ -1,32 +1,34 @@
-// import SQLite from 'react-native-sqlite-storage';
-var SQLite = require('react-native-sqlite-storage');
-// let db;
+let SQLite = require('react-native-sqlite-storage');
+let db;
 
-// Expo.FileSystem.downloadAsync(
-//     Expo.Asset.fromModule(require('../assets/songs.db')).uri,
-//     `${Expo.FileSystem.documentDirectory}SQLite/songs.db`
-// ).then(
-//     () =>
-// );
-
-let db = SQLite.openDatabase({ name : "songsdb", createFromLocation : '~/songsdb' });;
+const iterOverRows = (rows) => {
+    let result = []
+    for (let i = 0; i < rows.length; i++)
+        result.push(rows.item(i));
+    return result;
+}
 
 export class SongDBHelper {
 
     static execute = (sql, args = []) => {
         return new Promise((resolve, reject) => {
-            db.transaction(
-                // transaction callback
-                tx => {
-                    tx.executeSql(sql, args, (_, result) => resolve(result), reject)
-                }, 
-
-                // when error
-                (err) => console.log(err), 
-
-                // when success
-                () => {}
-            )
+            try {
+                db = db || SQLite.openDatabase({ name : "songsdb", createFromLocation : '~/songsdb' });
+                db.transaction(
+                    // transaction callback
+                    tx => {
+                        tx.executeSql(sql, args, (_, result) => resolve(result), reject)
+                    }, 
+    
+                    // when error
+                    (err) => console.log(err), 
+    
+                    // when success
+                    () => {}
+                )
+            } catch (e) {
+                reject(e);
+            }            
         });
     }
 
@@ -82,7 +84,7 @@ export class SongDBHelper {
             JOIN positions AS p ON p.collection_id = c.id 
             GROUP BY c.id;
         `;
-        return SongDBHelper.execute(SQL).then(result => result.rows._array);
+        return SongDBHelper.execute(SQL).then(result => iterOverRows(result.rows));
     }
 
     static fetchLetters() {
@@ -92,7 +94,7 @@ export class SongDBHelper {
             ORDER BY letter;
         `;
         return SongDBHelper.execute(SQL).then(
-            result => result.rows._array.map(item => item.letter)
+            result => iterOverRows(result.rows).map(item => item.letter)
         );
     }
 
@@ -104,7 +106,7 @@ export class SongDBHelper {
             ORDER BY p.title;
         `;
         return SongDBHelper.execute(SQL).then(
-            result => result.rows._array
+            result => iterOverRows(result.rows)
         )
     }
 
@@ -116,7 +118,7 @@ export class SongDBHelper {
             ORDER BY p.title;
         `;
         return SongDBHelper.execute(SQL).then(
-            result => result.rows._array
+            result => iterOverRows(result.rows)
         )
     }
 };

@@ -1,7 +1,8 @@
 import React from 'react';
-import { View, Text, ScrollView, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, ScrollView, StyleSheet, TouchableOpacity, ActivityIndicator } from 'react-native';
 import { connect } from 'react-redux';
 import settings from '../../config/settings';
+import { increaseFontSize, decreaseFontSize } from '../../actions/songs';
 
 const HeaderButtons = (props) => {
     const increase = props.navigation.getParam('increaseFont');
@@ -49,32 +50,49 @@ class Song extends React.Component {
     }
 
     _increaseFont = () => {
-        const current = this.state.fontSize;
-        this.setState({ fontSize: current >= 23 ? 23: current + 1 });
+        this.props.increaseFontSize();
     }
 
     _decreaseFont = () => {
-        const current = this.state.fontSize;
-        this.setState({ fontSize: current <= 12 ? 12: current - 1 });
+        this.props.decreaseFontSize();
+    }
+
+    renderError() {
+        return (
+            <Text style={styles.text}>Помилка завантаження пісні</Text>
+        );
     }
 
     renderSong() {
         const { song } = this.props;
-        return song ? (
+        return (
+            
             <ScrollView>
                 <Text style={[styles.text, styles.title]}>{song.title}</Text>
                 <View style={styles.collection}>
                     <Text style={styles.text}>{song.name} {song.number}</Text>
                 </View>
-                <Text style={[styles.text, styles.song, { fontSize: this.state.fontSize }]}>{song.text}</Text>
+                <Text style={[styles.text, styles.song, { fontSize: this.props.fontSize }]}>{song.text}</Text>
             </ScrollView>
-        ): <Text style={styles.text}>Помилка завантаження пісні</Text>;
+        )
+    }
+
+    renderLoading() {
+        return (
+            <ActivityIndicator size="large" color={settings.primaryColor}  />
+        );
     }
 
     render() {
         return (
             <View style={styles.container}>
-                {this.renderSong()}       
+                {
+                    this.props.loading? 
+                    this.renderLoading():
+                        this.props.isError? 
+                        this.renderError(): 
+                        this.renderSong() 
+                }     
             </View>
         )
     }
@@ -126,12 +144,16 @@ const mapStateToProps = (state) => {
     return {
         song: state.song.song,
         loading: state.song.loading,
+        isError: state.song.isError,
+        fontSize: state.song.fontSize,
     }
 }
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        dispatch
+        dispatch,
+        increaseFontSize: () => dispatch(increaseFontSize()),
+        decreaseFontSize: () => dispatch(decreaseFontSize()),
     }
 }
 

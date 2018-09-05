@@ -14,6 +14,9 @@ import {
     GET_SONG_LIST_REQUEST,
     GET_SONG_LIST_SUCCESS,
     GET_SONG_LIST_ERROR,
+
+    INCREASE_FONT_SIZE,
+    DECREASE_FONT_SIZE,
 } from './const';
 import { SongDBHelper } from '../utils/db';
 
@@ -82,3 +85,11 @@ export const fetchSongsByQuery = (query) => (dispatch) => {
         dispatch(fetchSongsSuccess(result));
     }).catch(err => dispatch(fetchSongsError(err)));
 };
+
+
+export const increaseFontSize = () => (dispatch) => {
+    dispatch({ type: INCREASE_FONT_SIZE });
+}
+export const decreaseFontSize = () => (dispatch) => {
+    dispatch({ type: DECREASE_FONT_SIZE });
+}

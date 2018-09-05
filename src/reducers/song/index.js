@@ -5,6 +5,7 @@ const initialState = {
     song: null,
     loading: false,
     isError: false,
+    fontSize: 16
 }
   
 export const song = createReducer(initialState, {
@@ -30,5 +31,17 @@ export const song = createReducer(initialState, {
             song: null,
             isError: true
         }
-    }
-});
+    },
+    [ActionTypes.INCREASE_FONT_SIZE](state, action) {
+        return {
+            ...state,
+            fontSize: state.fontSize >= 24 ? 24: state.fontSize + 2,
+        }
+    },
+    [ActionTypes.DECREASE_FONT_SIZE](state, action) {
+        return {
+            ...state,
+            fontSize: state.fontSize <= 12 ? 12: state.fontSize - 2,
+        }
+    },
+ });

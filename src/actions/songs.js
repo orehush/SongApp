@@ -19,10 +19,11 @@ import {
     DECREASE_FONT_SIZE,
 } from './const';
 import { SongDBHelper } from '../utils/db';
+import store from '../store/configureStore';
 
 export const fetchSongRequest = () => ({ type: GET_SONG_REQUEST });
 export const fetchSongError = () => ({ type: GET_SONG_ERROR });
-export const fetchSongSuccess = (payload) => ({ type: GET_SONG_SUCCESS, payload });
+export const fetchSongSuccess = (payload) => payload ? ({ type: GET_SONG_SUCCESS, payload }): ({ type: GET_SONG_ERROR });
 export const fetchSong = (id) => (dispatch) => {
     dispatch(fetchSongRequest());
     SongDBHelper.fetchSongByID(id).then(result => {
@@ -52,7 +53,6 @@ export const fetchCollectionsListSuccess = (payload) => ({ type: GET_COLLECTIONS
 export const fetchCollectionsList = () => (dispatch) => {
     dispatch(fetchCollectionsListRequest());
     SongDBHelper.fetchCollectionsList().then(result => {
-        console.log('LIST', result);
         dispatch(fetchCollectionsListSuccess(result));
     }).catch(err => dispatch(fetchCollectionsListError()));
 };
@@ -86,6 +86,53 @@ export const fetchSongsByQuery = (query) => (dispatch) => {
     }).catch(err => dispatch(fetchSongsError(err)));
 };
 
+export const nextSong = (params) => (dispatch) => {
+    const { isRandomSong, isNumberNavigation } = params;
+    const state = store.getState();
+    const { song } = state.song;
+    const number = parseInt(song.number);
+    
+    if (isRandomSong) {
+        dispatch(fetchRandomSong());
+        return;
+    }
+    if (isNumberNavigation) {
+        dispatch(fetchSongByNumber(song.collectionId, number + 1));
+        return;
+    }
+    
+    const { songs } = state.songs;
+    const index = songs.findIndex((el) => song.id == el.id);
+    if (index >= 0 && songs[index + 1]) {
+        dispatch(fetchSong(songs[index + 1].id));
+        return;
+    }
+};
+
+export const prevSong = (params) => (dispatch) => {
+    const { isRandomSong, isNumberNavigation } = params;
+    const state = store.getState();
+    const { song } = state.song;
+    const number = parseInt(song.number);
+    
+    if (isRandomSong) {
+        dispatch(fetchRandomSong());
+        return;
+    }
+    
+    if (isNumberNavigation) {
+        if (number > 1)
+        dispatch(fetchSongByNumber(song.collectionId, number - 1));
+        return;
+    }
+    
+    const { songs } = state.songs;
+    const index = songs.findIndex((el) => song.id == el.id);
+    if (index > 0 && songs[index - 1]) {
+        dispatch(fetchSong(songs[index - 1].id))
+        return;
+    }
+};
 
 export const increaseFontSize = () => (dispatch) => {
     dispatch({ type: INCREASE_FONT_SIZE });

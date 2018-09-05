@@ -1,8 +1,9 @@
 import React from 'react';
 import { View, Text, ScrollView, StyleSheet, TouchableOpacity, ActivityIndicator } from 'react-native';
 import { connect } from 'react-redux';
+import GestureRecognizer, { swipeDirections } from 'react-native-swipe-gestures';
 import settings from '../../config/settings';
-import { increaseFontSize, decreaseFontSize } from '../../actions/songs';
+import { increaseFontSize, decreaseFontSize, nextSong, prevSong } from '../../actions/songs';
 
 const HeaderButtons = (props) => {
     const increase = props.navigation.getParam('increaseFont');
@@ -41,12 +42,19 @@ class Song extends React.Component {
         super(props);
         this.state = {
             fontSize: 16,
+            isRandomSong: false,
+            collectionId: null,
+            number: null,
         }
     }
 
     componentDidMount() {
         this.props.navigation.setParams({ increaseFont: this._increaseFont });
         this.props.navigation.setParams({ decreaseFont: this._decreaseFont });
+        this.setState({
+            isRandomSong: this.props.navigation.getParam('isRandomSong'),
+            isNumberNavigation: this.props.navigation.getParam('isNumberNavigation'),
+        })
     }
 
     _increaseFont = () => {
@@ -55,6 +63,16 @@ class Song extends React.Component {
 
     _decreaseFont = () => {
         this.props.decreaseFontSize();
+    }
+
+    onSwipeLeft = () => {
+        if (!this.props.isError)
+            this.props.nextSong(this.state);
+    }
+
+    onSwipeRight = () => {
+        if (!this.props.isError)
+            this.props.prevSong(this.state);
     }
 
     renderError() {
@@ -84,16 +102,28 @@ class Song extends React.Component {
     }
 
     render() {
+        const config = {
+            velocityThreshold: 0.5,
+            directionalOffsetThreshold: 80
+        };
+
         return (
-            <View style={styles.container}>
-                {
-                    this.props.loading? 
-                    this.renderLoading():
+            <GestureRecognizer
+                onSwipeLeft={(state) => this.onSwipeLeft(state)}
+                onSwipeRight={(state) => this.onSwipeRight(state)}
+                config={config}
+                style={{flex: 1}}
+            >
+                <View style={styles.container}>
+                    {
+                        this.props.loading? 
+                        this.renderLoading():
                         this.props.isError? 
                         this.renderError(): 
                         this.renderSong() 
-                }     
-            </View>
+                    }     
+                </View>
+            </GestureRecognizer>
         )
     }
 };
@@ -154,6 +184,8 @@ const mapDispatchToProps = (dispatch) => {
         dispatch,
         increaseFontSize: () => dispatch(increaseFontSize()),
         decreaseFontSize: () => dispatch(decreaseFontSize()),
+        nextSong: (params) => dispatch(nextSong(params)),
+        prevSong: (params) => dispatch(prevSong(params)),
     }
 }
 

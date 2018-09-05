@@ -47,7 +47,8 @@ class SearchByNumber extends React.Component {
         if (collection && number) {
             this.props.fetchSongByNumber(collection.id, number);
             this.props.navigation.navigate('Song', { 
-                headerTitle: `${collection.name} ${number}` 
+                headerTitle: `${collection.name} ${number}`,
+                isNumberNavigation: true
             })
         }
     }
@@ -77,6 +78,7 @@ class SearchByNumber extends React.Component {
                         placeholder={`1 - ${this.state.collection.count}`}
                         onChangeText={this._onChange}
                         style={styles.input}
+                        keyboardType='numeric'
                         placeholderTextColor={settings.black}
                     />
                 </View>

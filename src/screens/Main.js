@@ -2,6 +2,7 @@ import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux';
 import Icon from 'react-native-vector-icons/Ionicons';
+import FAIcon from 'react-native-vector-icons/FontAwesome';
 import settings from '../config/settings';
 import { fetchRandomSong, fetchCollectionsList, fetchLetters } from '../actions/songs';
 
@@ -26,7 +27,8 @@ class Main extends React.Component {
     _navigateToRandomSong = () => {
         this.props.fetchRandomSong();
         this.props.navigation.navigate('Song', { 
-            headerTitle: 'Випадкова пісня' 
+            headerTitle: 'Випадкова пісня',
+            isRandomSong: true,
         });
     }
 
@@ -62,7 +64,7 @@ class Main extends React.Component {
 
                     <TouchableOpacity style={styles.col}
                           onPress={() => this._navigateToAlphabetic()}>
-                        <Icon name="ios-information-circle" style={styles.icon} 
+                        <FAIcon name="adn" style={styles.icon} 
                           size={80} color={settings.primaryColor} />
                         <Text style={styles.iconText}>Зміст</Text>
                     </TouchableOpacity>

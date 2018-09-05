@@ -65,6 +65,7 @@ export class SongDBHelper {
     static fetchSongByNumber(collectionId, number) {
         const SQL = `
             SELECT c.name,
+                   c.id as collectionId,
                    p.id, 
                    p.number, 
                    p.title, 

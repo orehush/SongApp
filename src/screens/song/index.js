@@ -27,14 +27,6 @@ class Song extends React.Component {
         return {
             headerTitle: navigation.getParam('headerTitle'),
             headerRight: <HeaderButtons navigation={navigation}/>,
-            headerTintColor: settings.primaryColor,
-            headerStyle: {
-                backgroundColor: settings.backgroundPrimaryColor,
-            },
-            headerTitleStyle: {
-                color: settings.primaryColor,
-                fontWeight: 'bold',
-            },
         };
     };
 
@@ -145,7 +137,7 @@ const styles = StyleSheet.create({
         borderRadius: 4,
     },
     headerButtonText: {
-        color: settings.black,
+        color: settings.textColor,
         fontWeight: 'bold',
     },
     container: {

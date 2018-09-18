@@ -23,7 +23,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center'
     },
     itemText: {
-        color: settings.black,
+        color: settings.textColor,
         fontSize: 20,
         padding: 5,
         flex: 1

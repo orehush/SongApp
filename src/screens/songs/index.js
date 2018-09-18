@@ -10,14 +10,6 @@ class SongList extends React.Component {
     static navigationOptions = ({ navigation }) => {
         return {
             headerTitle: navigation.getParam('headerTitle'),
-            headerTintColor: settings.primaryColor,
-            headerStyle: {
-                backgroundColor: settings.backgroundPrimaryColor,
-            },
-            headerTitleStyle: {
-                color: settings.primaryColor,
-                fontWeight: 'bold',
-            },
         };
     };
 
@@ -70,12 +62,12 @@ class SongList extends React.Component {
             <View style={styles.inputContainer}>
                 <View style={styles.iconContainer}>
                     <Icon style={styles.inputIcon} name="ios-search" 
-                          size={20} color={settings.black} />
+                          size={20} color={settings.textColor} />
                 </View>
                 <TextInput
                     onChangeText={this._onChangeText}
                     style={styles.input}
-                    placeholderTextColor={settings.black}
+                    placeholderTextColor={settings.textColor}
                 />
             </View>
         ): null;
@@ -118,7 +110,7 @@ const styles = StyleSheet.create({
 		borderTopRightRadius: 8,
 		borderBottomRightRadius: 8,
 		backgroundColor: settings.primaryColor,
-		color: settings.black
+		color: settings.textColor
     },
 });
 

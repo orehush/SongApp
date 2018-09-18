@@ -10,7 +10,6 @@ export default class App extends React.Component {
       <Provider store={store}>
           <View style={styles.container}>
             {Platform.OS === 'ios' && <StatusBar barStyle="default" />}
-            {Platform.OS === 'android' && <View style={styles.statusBarUnderlay} />}
             <RootStack/>
           </View>
         </Provider>
@@ -25,10 +24,5 @@ const styles = StyleSheet.create({
   },
   containerView: {
   	flex: 1,
-  	
-  },
-  statusBarUnderlay: {
-    height: 24,
-    backgroundColor: 'rgba(0,0,0,0.5)'
   },
 });

@@ -8,14 +8,6 @@ import { fetchSongByNumber } from '../../actions/songs';
 class SearchByNumber extends React.Component {
     static navigationOptions = {
         headerTitle: 'Пошук по номеру',
-        headerTintColor: settings.primaryColor,
-        headerStyle: {
-            backgroundColor: settings.backgroundPrimaryColor,
-        },
-        headerTitleStyle: {
-            color: settings.primaryColor,
-            fontWeight: 'bold',
-        },
     };
 
     constructor(props) {
@@ -72,14 +64,14 @@ class SearchByNumber extends React.Component {
                 <View style={styles.inputContainer}>
                     <View style={styles.iconContainer}>
                         <Icon style={styles.inputIcon} name="ios-search" 
-                            size={20} color={settings.black} />
+                            size={20} color={settings.textColor} />
                     </View>
                     <TextInput
                         placeholder={`1 - ${this.state.collection.count}`}
                         onChangeText={this._onChange}
                         style={styles.input}
                         keyboardType='numeric'
-                        placeholderTextColor={settings.black}
+                        placeholderTextColor={settings.textColor}
                     />
                 </View>
                 <TouchableOpacity onPress={this._openSongByNumber} style={styles.button}>
@@ -105,12 +97,12 @@ const styles = StyleSheet.create({
         width: '100%'
     },
     picker: {
-        color: settings.black,
+        color: settings.textColor,
         height: 50,
         margin: 0,
     },
     pickerItem: {
-        color: settings.black,
+        color: settings.textColor,
         fontSize: 30,
     },
     inputContainer: {
@@ -137,7 +129,7 @@ const styles = StyleSheet.create({
 		borderTopRightRadius: 8,
 		borderBottomRightRadius: 8,
 		backgroundColor: settings.primaryColor,
-		color: settings.black
+		color: settings.textColor
     },
     button: {
         height: 50,
@@ -149,7 +141,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
     },
     buttonText: {
-        color: settings.black,
+        color: settings.textColor,
         fontSize: 20,
         fontWeight: 'bold',
     }

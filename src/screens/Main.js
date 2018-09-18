@@ -10,13 +10,7 @@ class Main extends React.Component {
 
     static navigationOptions = {
         title: 'SongApp',
-        headerStyle: {
-            backgroundColor: settings.backgroundPrimaryColor,
-        },
-        headerTitleStyle: {
-            color: settings.primaryColor,
-            fontWeight: 'bold',
-        },
+        
     };
 
     _selectByNumber = () => {

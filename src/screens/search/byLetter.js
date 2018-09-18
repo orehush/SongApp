@@ -8,14 +8,6 @@ class SearchByLetter extends React.Component {
 
     static navigationOptions = {
         headerTitle: 'Зміст',
-        headerTintColor: settings.primaryColor,
-        headerStyle: {
-            backgroundColor: settings.backgroundPrimaryColor,
-        },
-        headerTitleStyle: {
-            color: settings.primaryColor,
-            fontWeight: 'bold',
-        },
     };
 
     _onPress = (letter) => {
@@ -81,7 +73,7 @@ const styles = StyleSheet.create({
         alignItems: 'center'
     },
     buttonText: {
-        color: settings.black,
+        color: settings.textColor,
         fontSize: 32,
         fontWeight: 'bold'
     }

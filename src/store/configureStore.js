@@ -1,8 +1,9 @@
 import { createStore, applyMiddleware, compose } from 'redux';
+import { AsyncStorage } from 'react-native';
 import thunk from 'redux-thunk';
 import devTools from 'remote-redux-devtools';
 import { createLogger } from 'redux-logger';
-import { autoRehydrate } from 'redux-persist'
+import { persistStore, autoRehydrate } from 'redux-persist'
 import { rootReducer } from '../reducers';
 
 
@@ -16,5 +17,9 @@ const enhancer = isDev ?
 
 
 const store = createStore(rootReducer, enhancer);
+
+export const persist = persistStore(store, {
+    storage: AsyncStorage,
+});
 
 export default store;

@@ -24,6 +24,7 @@ class SongList extends React.Component {
     componentDidMount() {
         const showSearch = this.props.navigation.getParam('showSearch');
         if (showSearch) this.setState({ showSearch });
+        this.timer = null;
     }
 
     componentWillUnmount() {
@@ -48,14 +49,19 @@ class SongList extends React.Component {
         />
     );
 
+    _search(query) {
+      if (query.length >= 3) {
+        this.props.fetchSongsByQuery(query);
+      } else {
+        this.props.resetSongList();
+      }
+    }
+
     _onChangeText = (query) => {
         this.setState({ query });
-        if (query.length >= 3) {
-            this.props.fetchSongsByQuery(query);
-        } else {
-            this.props.resetSongList();
-        }
-    }
+        if (this.timer) clearTimeout(this.timer);
+        this.timer = setTimeout(() => this._search(query), 1000);
+    };
     
     _renderSearchField = () => {
         return this.state.showSearch ? (
@@ -91,7 +97,7 @@ const styles = StyleSheet.create({
 		flexDirection: 'row',
 		justifyContent: 'center',
 		alignItems: 'center',
-		backgroundColor: settings.primaryColor,
+		backgroundColor: settings.backgroundSecondColor,
 		borderRadius: 8,
 		borderWidth: 1,
 		borderColor: settings.black
@@ -109,7 +115,7 @@ const styles = StyleSheet.create({
 		padding: 10,
 		borderTopRightRadius: 8,
 		borderBottomRightRadius: 8,
-		backgroundColor: settings.primaryColor,
+		backgroundColor: settings.backgroundSecondColor,
 		color: settings.textColor
     },
 });

@@ -1,15 +1,17 @@
 import React from 'react';
-import { StyleSheet, Text, View, Platform } from 'react-native';
+import { StyleSheet, Text, View, Platform, StatusBar } from 'react-native';
 import { Provider } from 'react-redux';
 import RootStack from './src/router';
 import store from './src/store/configureStore';
+import settings from './src/config/settings';
+
 
 export default class App extends React.Component {
   render() {
     return (
       <Provider store={store}>
           <View style={styles.container}>
-            {Platform.OS === 'ios' && <StatusBar barStyle="default" />}
+            <StatusBar backgroundColor={settings.backgroundPrimaryColor} barStyle="default" />
             <RootStack/>
           </View>
         </Provider>

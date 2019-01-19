@@ -1,32 +1,17 @@
 import React from 'react';
-import { View, Text, ScrollView, StyleSheet, TouchableOpacity, ActivityIndicator } from 'react-native';
+import { View, Text, ScrollView, StyleSheet, TouchableOpacity, ActivityIndicator, Share } from 'react-native';
 import { connect } from 'react-redux';
 import GestureRecognizer, { swipeDirections } from 'react-native-swipe-gestures';
 import settings from '../../config/settings';
 import { increaseFontSize, decreaseFontSize, nextSong, prevSong } from '../../actions/songs';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
-const HeaderButtons = (props) => {
-    const increase = props.navigation.getParam('increaseFont');
-    const decrease = props.navigation.getParam('decreaseFont');
-
-    return (
-        <View style={styles.headerButtons}>
-            <TouchableOpacity style={styles.headerButton} onPress={() => increase()}>
-                <Text style={[styles.headerButtonText, {fontSize: 24}]}>A+</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.headerButton} onPress={() => decrease()}>
-                <Text style={[styles.headerButtonText, {fontSize: 18}]}>A-</Text>
-            </TouchableOpacity>
-        </View>
-    );
-}
 
 class Song extends React.Component {
 
     static navigationOptions = ({ navigation }) => {
         return {
             headerTitle: navigation.getParam('headerTitle'),
-            headerRight: <HeaderButtons navigation={navigation}/>,
         };
     };
 
@@ -41,8 +26,6 @@ class Song extends React.Component {
     }
 
     componentDidMount() {
-        this.props.navigation.setParams({ increaseFont: this._increaseFont });
-        this.props.navigation.setParams({ decreaseFont: this._decreaseFont });
         this.setState({
             isRandomSong: this.props.navigation.getParam('isRandomSong'),
             isNumberNavigation: this.props.navigation.getParam('isNumberNavigation'),
@@ -51,21 +34,30 @@ class Song extends React.Component {
 
     _increaseFont = () => {
         this.props.increaseFontSize();
-    }
+    };
 
     _decreaseFont = () => {
         this.props.decreaseFontSize();
-    }
+    };
+
+    _share = () => {
+        const { song } = this.props;
+        const message = `${song.title}\n${song.name} ${song.number}\n${song.text}`;
+
+        Share.share({ title: song.title, message })
+    };
 
     onSwipeLeft = () => {
-        if (!this.props.isError)
+        if (!this.props.isError) {
             this.props.nextSong(this.state);
-    }
+        }
+    };
 
     onSwipeRight = () => {
-        if (!this.props.isError)
+        if (!this.props.isError) {
             this.props.prevSong(this.state);
-    }
+        }
+    };
 
     renderError() {
         return (
@@ -73,16 +65,33 @@ class Song extends React.Component {
         );
     }
 
+    renderButtons() {
+        return (
+          <View style={styles.headerButtons}>
+            <TouchableOpacity style={styles.headerButton} onPress={this._increaseFont}>
+              <Text style={[styles.headerButtonText, {fontSize: 24}]}>A+</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.headerButton} onPress={this._decreaseFont}>
+              <Text style={[styles.headerButtonText, {fontSize: 18}]}>A-</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.headerButton} onPress={this._share}>
+              <Text style={styles.headerButtonText}><Icon name={'share-alt'} size={20} /></Text>
+            </TouchableOpacity>
+          </View>
+        );
+    }
+
     renderSong() {
         const { song } = this.props;
+        const paragraphs = (song.text || '').split('\n').filter(e => e.length > 2);
         return (
-            
             <ScrollView>
+                {this.renderButtons()}
                 <Text style={[styles.text, styles.title]}>{song.title}</Text>
                 <View style={styles.collection}>
                     <Text style={styles.text}>{song.name} {song.number}</Text>
                 </View>
-                <Text style={[styles.text, styles.song, { fontSize: this.props.fontSize }]}>{song.text}</Text>
+              {paragraphs.map(e => <Text style={[styles.text, styles.song, { fontSize: this.props.fontSize }]}>{e}</Text>)}
             </ScrollView>
         )
     }
@@ -109,10 +118,10 @@ class Song extends React.Component {
                 <View style={styles.container}>
                     {
                         this.props.loading? 
-                        this.renderLoading():
-                        this.props.isError? 
-                        this.renderError(): 
-                        this.renderSong() 
+                            this.renderLoading():
+                            this.props.isError?
+                                this.renderError():
+                                this.renderSong()
                     }     
                 </View>
             </GestureRecognizer>
@@ -133,7 +142,7 @@ const styles = StyleSheet.create({
         height: 40,
         width: 40,
         margin: 5,
-        backgroundColor: settings.primaryColor,
+        backgroundColor: settings.backgroundSecondColor,
         borderRadius: 4,
     },
     headerButtonText: {

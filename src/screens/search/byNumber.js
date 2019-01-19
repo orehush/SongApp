@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, Picker, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, Picker, TextInput, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
 import { connect } from 'react-redux';
 import Icon from 'react-native-vector-icons/Ionicons';
 import settings from '../../config/settings';
@@ -72,11 +72,15 @@ class SearchByNumber extends React.Component {
                         style={styles.input}
                         keyboardType='numeric'
                         placeholderTextColor={settings.textColor}
+                        onSubmitEditing={this._openSongByNumber}
                     />
                 </View>
                 <TouchableOpacity onPress={this._openSongByNumber} style={styles.button}>
                     <Text style={styles.buttonText}>Перейти</Text>
                 </TouchableOpacity>
+              <ScrollView style={styles.descriptionBlock}>
+                <Text style={styles.description}>{this.state.collection.description}</Text>
+              </ScrollView>
             </View>
         ): <View style={styles.container}></View>;
     }
@@ -86,15 +90,15 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: settings.backgroundPrimaryColor,
-        // justifyContent: 'center',
         alignItems: 'center'
     },
     pickerContainer: {
-        backgroundColor: settings.primaryColor,
+        backgroundColor: settings.backgroundSecondColor,
         borderWidth: 1,
-        borderColor: settings.black,
+        borderColor: settings.backgroundSecondColor,
         borderRadius: 8,
-        width: '100%'
+        width: '100%',
+        marginBottom: 1
     },
     picker: {
         color: settings.textColor,
@@ -110,10 +114,10 @@ const styles = StyleSheet.create({
 		flexDirection: 'row',
 		justifyContent: 'center',
 		alignItems: 'center',
-		backgroundColor: settings.primaryColor,
+		backgroundColor: settings.backgroundSecondColor,
 		borderRadius: 8,
 		borderWidth: 1,
-		borderColor: settings.black
+		borderColor: settings.backgroundSecondColor
 	},
     iconContainer: {
 		borderTopLeftRadius: 8,
@@ -128,7 +132,7 @@ const styles = StyleSheet.create({
 		padding: 10,
 		borderTopRightRadius: 8,
 		borderBottomRightRadius: 8,
-		backgroundColor: settings.primaryColor,
+		backgroundColor: settings.backgroundSecondColor,
 		color: settings.textColor
     },
     button: {
@@ -136,7 +140,7 @@ const styles = StyleSheet.create({
         width: 200,
         borderRadius: 8,
         marginTop: 10,
-        backgroundColor: settings.primaryColor,
+        backgroundColor: settings.backgroundSecondColor,
         alignItems: 'center',
         justifyContent: 'center',
     },
@@ -144,7 +148,14 @@ const styles = StyleSheet.create({
         color: settings.textColor,
         fontSize: 20,
         fontWeight: 'bold',
-    }
+    },
+  descriptionBlock: {
+    margin: 15,
+  },
+  description: {
+        fontSize: 16,
+        color: settings.primaryColor,
+  }
 });
 
 const mapStateToProps = (state) => {

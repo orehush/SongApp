@@ -1,21 +1,21 @@
 import React from 'react';
-import { View, Text, TouchableHighlight, StyleSheet } from 'react-native';
+import { Text, TouchableOpacity, StyleSheet } from 'react-native';
 import settings from '../../../config/settings';
 
 export class SongListItem extends React.PureComponent {
     render() {
         const { id, title, onPress } = this.props;
         return (
-            <TouchableHighlight style={styles.item} onPress={() => onPress(id)}>
+            <TouchableOpacity style={styles.item} onPress={() => onPress(id)}>
                 <Text style={styles.itemText}>{title}</Text>
-            </TouchableHighlight>
+            </TouchableOpacity>
         );
     }
 };
 
 const styles = StyleSheet.create({
     item: {
-        backgroundColor: settings.primaryColor,
+        backgroundColor: settings.backgroundSecondColor,
         marginTop: 1,
         borderTopRightRadius: 4,
         borderBottomLeftRadius: 4,

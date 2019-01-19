@@ -80,10 +80,10 @@ export class SongDBHelper {
 
     static fetchCollectionsList() {
         const SQL = `
-            SELECT DISTINCT c.id, c.name, COUNT(p.id) AS count 
+            SELECT DISTINCT c.id, c.name, c.description, c.number, COUNT(p.id) AS count 
             FROM collections AS c 
             JOIN positions AS p ON p.collection_id = c.id 
-            GROUP BY c.id;
+            GROUP BY c.id ORDER BY c.number;
         `;
         return SongDBHelper.execute(SQL).then(result => iterOverRows(result.rows));
     }

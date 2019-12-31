@@ -33,10 +33,10 @@ export default types
       parent.history.track(self);
       self.openCounts += 1;
     },
-    bookmark() {
+    addBookmark() {
       self.bookmarkedDate = new Date();
     },
-    unbookmark() {
+    removeBookmark() {
       self.bookmarkedDate = null;
     },
   }));

@@ -3,19 +3,19 @@ import Song from 'modules/song/models/Song';
 
 export default types
   .model('History', {
-    songs: types.array(Song),
+    _songs: types.array(types.number),
   })
   .views(self => ({
-    get all() {
+    get songs() {
       const parent = getParent(self, 2);
-      return self.songs.map(songId => {
+      return self._songs.map(songId => {
         return resolveIdentifier(Song, parent.songs, songId);
       });
     },
   }))
   .actions(self => ({
     track(song) {
-      self.songs.unshift(song.id);
+      self._songs.unshift(song.id);
     },
   }))
   .create();

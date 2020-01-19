@@ -22,15 +22,13 @@ const store = types
     get songs() {
       return self._songs;
     },
-    get bookmarks() {
-      return self._songs.filter(song => song.isBookmarked);
-    },
     get songbooks() {
       return self._songbooks;
     },
   }))
   .actions(self => ({
     chooseRandom() {
+      // choose random song
       self.randomSong =
         self._songs[Math.floor(Math.random() * self._songs.length)];
     },
